@@ -8,36 +8,40 @@
 	</div>
     <form action="/registro" method="post" >
         <div>
-            <p><input  type="text" name="name" value="<%= typeof old != 'undefined' ? old.name : '' %>"></p>
+            <label for="name">Apellido y Nombre</label>
+            <span><input  type="text" name="name" value="<%= typeof old != 'undefined' ? old.name : '' %>" required></span>
             <% if (locals.errors && errors.name) { %>
-                <span><%= errors.name.msg %></span>
+                <span style="color: red;"><%= errors.name.msg %></span>
             <%}%>
         </div>
+        <br>
         <div>
-            <label for="email">correo Electrónico</label>
-            <p><input type="email" name="email" value="<%= typeof old != 'undefined' ? old.email : '' %>" ></p>
+            <label for="email">Correo Electrónico</label>
+            <span><input type="email" name="email" value="<%= typeof old != 'undefined' ? old.email : '' %>" required ></span>
             <% if (locals.errors && errors.email) { %>
-                <span>
-                    <%= errors.email.msg %>
-                </span>
+                <span style="color: red;"><%= errors.email.msg %></span>
             <%}%>
         </div>
+        <br>
         <div>
             <label for="password">Contraseña</label>
-            <p><input type="password" name="password"></p>
+            <span><input type="password" name="password" required></span>
             <% if (locals.errors && errors.password) { %>
-                <span><%= errors.password.msg %></span>
+                <span style="color: red;"><%= errors.password.msg %></span>
             <%}%>
         </div>
+        <br>
         <div>
             <label for="password">Confirmar Contraseña</label>
-            <p><input type="password" name="confirm_password"></p>
+            <span><input type="password" name="confirm_password" required></span>
             <% if (locals.errors && errors.confirm_password) { %>
-                <span><%= errors.password.msg %></span>
+                <span style="color: red;"><%= errors.password.msg %></span>
             <%}%>
         </div>        
-        <div class="form-group">
+        <br>
+        <div >
             <button type="submit">Registrarse</button>
+            <a href="/">volver a la lista</a>
         </div>
     </form>
 </body>

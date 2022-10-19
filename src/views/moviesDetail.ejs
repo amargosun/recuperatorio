@@ -13,7 +13,11 @@
     <p>PREMIOS: <%= movie.awards %> </p>
     <p>FECHA DE CREACIÓN: <%= movie.release_date %> </p>
     <p>DURACIÓN: <%= movie.length + ' min'%> </p>
-    <p>GENERO: <%= movie.genre.name %> </p>
+    <% if (movie.genre_id == null){ %>
+        <p>GENERO: NO SE LE ASIGNO NINGUN GENERO A ESTA PELICULA</p>
+    <% }else{%>
+        <p>GENERO: <%= movie.genre.name %> </p>        
+    <%}%>
     <br>
     <p>FECHA DE CREACION DE REGISTRO: <%= movie.created_at %> </p>
     <p>ULTIMA ACTUALIZACION DE REGISTRO: <%= movie.updated_at %> </p>

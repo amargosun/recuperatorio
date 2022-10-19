@@ -7,16 +7,20 @@
 </head>
 
 <body>
-    <h2 style="color: red;">Esta seguro de ELIMINAR la película:</h2>
-    <h1> <%= Movie.title %></h1>
-    <p>
-        <form action="/movies/delete/<%= Movie.id %>?_method=PUT" method="POST">
-            <br>
-            <p> <button type="submit">Eliminar la Película</button>            
-                <a href="/">volver a la lista</a>
-        </form>
-    </p>
-    
+    <% if (locals.usuario.role == 9) { %>  
+        <h2 style="color: red;">Esta seguro de ELIMINAR la película:</h2>
+        <h1> <%= Movie.title %></h1>
+        <p>
+            </form>
+                <form action="/movies/delete/<%= Movie.id %>?_method=PUT" method="POST">
+                <button type="submit">Eliminar la Película</button>            
+                <span><a href="/">volver a la lista</a></span>
+            </form>
+        </p>
+    <% }else{%>
+        <h1>SOLO PUEDE ELIMINAR PELICULAS CON ROL DE ADMINISTRADOR...</h1>
+        <a href="/">volver a la lista</a>
+    <%}%>
 </body>
 
 </html>

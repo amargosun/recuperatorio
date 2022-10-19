@@ -8,19 +8,17 @@
 	</div>
 	<div>
 		<form action="/login" method="post">
+			<div>
 			<input type="email" name="email" placeholder="Correo electrónico" value="<%= typeof old != 'undefined' ? old.email : '' %>" >
-			<% if (locals.errors && errors.email) { %>
-				<span>
-					<%= errors.email.msg %>
-				</span>
-			<%}%>
+				<% if (locals.errors && errors.email) { %>
+					<span style="color:red;"><%= errors.email.msg %></span>
+				<%}%>
+			</div>
 			<br>
 			<div>
 				<input type="password" placeholder="Contraseña" name="password" aria-label="Username">
 				<% if(typeof(errors) != 'undefined' && errors.password){%>
-				<span >
-					<%= errors.password.msg %>
-				</span>
+				<span style="color: red;"><%= errors.password.msg %></span>
 				<%}%>
 			</div>
 			<br>

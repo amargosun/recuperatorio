@@ -8,32 +8,57 @@
 
 <body>
     <h1>Agregar una nueva Película</h1>
-    <section >
-        <form action="/movies/create" method="POST">
-            <label for="title">Titulo </label>
-            <p><input type="text" name="title" required></p>
-            <label for="rating">Calificación </label>
-            <p><input type="number" name="rating" required> </p>
-            <label for="awards">Premios </label>
-            <p><input type="number" name="awards" required></p>
-            <label for="release_date">Fecha de creación </label>
-            <p><input type="date" name="release_date" required></p>
-            <label for="length">Duración </label>
-            <p><input type="number" name="length" required></p>
-            <label for="genreID">Género </label>
-            <p>
-                <select name="genre_id" required>
-                    <option value="" disabled selected>- Seleccione el género - </option>
-                    <% allGenres.forEach(genre => { %>
-                    <option value="<%= genre.id %>"><%= genre.name %></option>
-                    <% }); %>
-                </select>
-            </p>
-            <br>
-            <p> <button type="submit">Agregar</button>
-                <a href="/">volver a la lista</a>
-            </p>
-        </form>
-    </section>
-</body>
+    <% if (locals.usuario.role == 9) { %>  
+        <section >
+            <form action="/movies/create" method="POST">
+                <div>
+                    <label for="title">Título </label>
+                    <span><input type="text" name="title" ></span>
+                    <% if (locals.errors && errors.title) { %>
+                        <span style="color: red;"><%= errors.title.msg %></span>
+                    <%}%>
+                </div>
+                <br>
+                <div>
+                    <label for="rating">Calificación </label>
+                    <span><input type="number" name="rating" required> </span>
+                </div>
+                <br>
+                <div>
+                    <label for="awards">Premios </label>
+                    <span><input type="number" name="awards" required></span>
+                </div>
+                <br>
+                <div>
+                    <label for="release_date">Fecha de creación </label>
+                    <span><input type="date" name="release_date" required></span>
+                </div>
+                <br>
+                <div>
+                    <label for="length">Duración </label>
+                    <span><input type="number" name="length" ></span>
+                </div>
+                <br>
+                <div>
+                    <label for="genreID">Género </label>
+                    <p>
+                        <select name="genre_id" required>
+                            <option value="" disabled selected>- Seleccione el género - </option>
+                            <% allGenres.forEach(genre => { %>
+                            <option value="<%= genre.id %>"><%= genre.name %></option>
+                            <% }); %>
+                        </select>
+                    </p>
+                </div>
+                <br>
+                <p> <button type="submit">Agregar</button>
+                    <a href="/">volver a la lista</a>
+                </p>
+            </form>
+        </section>
+        <% }else{%>
+            <h1>SOLO PUEDE AGREGAR PELICULAS CON ROL DE ADMINISTRADOR...</h1>
+            <a href="/">volver a la lista</a>
+        <%}%>
+    </body>
 </html>

@@ -4,8 +4,8 @@ const sequelize = db.sequelize;
 const { Op } = require("sequelize");
 const moment = require('moment');
 
+const { validationResult } = require('express-validator');
 
-//Aqui tienen otra forma de llamar a cada uno de los modelos
 const Movies = db.Movie;
 const Genres = db.Genre;
 const Actors = db.Actor;
@@ -28,18 +28,6 @@ const moviesController = {
                 res.render('moviesDetail.ejs', {movie});
             });
     },
-    'new': (req, res) => {
-        Movies.findAll({
-            order : [
-                ['release_date', 'DESC']
-            ],
-            limit: 5
-        })
-            .then(movies => {
-                res.render('newestMovies', {movies});
-            });
-    },
-    //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
         let promGenres = Genres.findAll();
         let promActors = Actors.findAll();    
@@ -50,8 +38,7 @@ const moviesController = {
         .catch(error => res.send(error))
     },
     create: function (req,res) {
-        Movies
-        .create(
+        Movies.create(
             {
                 title: req.body.title,
                 rating: req.body.rating,
@@ -74,10 +61,7 @@ const moviesController = {
         Promise
         .all([promMovies, promGenres, promActors])
         .then(([Movie, allGenres, allActors]) => {
-            //Movie.release_date = moment( new Date(Movie.release_date)).toLocaleDateString();
             Movie.release_date = moment( new Date(Movie.release_date)).format('L');
-             //new Date("Sun Jan 03 1999 21:00:00 GMT-0300 (hora estándar de Argentina)").toLocaleDateString()
-             //return res.send(Movie.release_date);
             return res.render(path.resolve(__dirname, '..', 'views',  'moviesEdit'), {Movie,allGenres,allActors})})
         .catch(error => res.send(error))
     },

@@ -20,36 +20,6 @@ const userControllers = {
     registro: function(req,res){
         res.render(path.resolve(__dirname, '../views/registro'));
     },
-    // create: (req, res) => {
-    //     let errors = validationResult(req);
-    //     if (errors.isEmpty()) {
-    //         let user = {
-    //             nombre: req.body.first_name,
-    //             apellido: req.body.last_name,
-    //             email: req.body.email,
-    //             password: bcrypt.hashSync(req.body.password, 10),
-    //             avatar:  req.file ? req.file.filename : '',
-    //             role: 1
-    //         }
-    //         let archivoUsers = fs.readFileSync(path.resolve(__dirname, '../database/usuarios.json'), {
-    //             encoding: 'utf-8'
-    //         });
-    //         let users;
-    //         if (archivoUsers == "") {
-    //             users = [];
-    //         } else {
-    //             users = JSON.parse(archivoUsers);
-    //         };
-    //         users.push(user);
-    //         usersJSON = JSON.stringify(users, null, 2);
-    //         fs.writeFileSync(path.resolve(__dirname, '../database/usuarios.json'), usersJSON);
-    //         res.redirect('/login');
-    //     } else {
-    //         return res.render(path.resolve(__dirname, '../views/registro'), {
-    //         errors: errors.mapped(),  old: req.body
-    //         });
-    //     }
-    // },
     ingresar: (req, res) => {
         const resultValidation = validationResult(req);
         if (resultValidation.errors.length > 0) {
