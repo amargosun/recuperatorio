@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h2 style="color: red;">Esta seguro de ELIMINAR la película:</h2>
+    <h1> <%= Movie.title %></h1>
+    <p>
+        <form action="/movies/delete/<%= Movie.id %>?_method=PUT" method="POST">
+            <br>
+            <p> <button type="submit">Eliminar la Película</button>            
+                <a href="/">volver a la lista</a>
+        </form>
+    </p>
+    
+</body>
+
+</html>

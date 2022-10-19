@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <% if (locals.usuario) { %>  
+        <a href="/logout">cerrar sesión</a>
+    <% } else {%>    
+        <a href="/login">ingresar</a>
+        <a href="/registro">registrarse</a>
+    <% } %>
+    <br>
+    <h1>Listado de Películas</h1>
+    <p>
+        <% if (locals.usuario.role == 9) { %>  
+            <a href="/movies/add">Agregar una Pelicula</a>
+        <% } %>
+        </p>
+    <br>
+    <ul>
+        <% for( let i = 0; i < movies.length; i++ ) { %>
+            <% if (movies[i].deleted != 1) { %>
+                <li>
+                    <a  href="/movies/detail/<%= movies[i].id %>"><%= movies[i].title %></a>
+                </li>
+            <% } %>
+        <% } %>
+    </ul>
+</body>
+</html>
