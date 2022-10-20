@@ -16,7 +16,7 @@ const moviesController = {
             include: ['genre']
         })
             .then(movies => {
-                res.render('moviesList.ejs', {movies})
+                res.render('index.ejs', {movies})
             })
     },
     'detail': (req, res) => {
