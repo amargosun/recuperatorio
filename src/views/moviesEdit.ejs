@@ -7,34 +7,40 @@
 </head>
 
 <body>
-    <h2 class="titulo">Edición Película:</h2>
+    <h2>Edición Película:</h2>
     <h1><%= Movie.title %></h1>
     <% if (locals.usuario.role == 9) { %>  
-        <section class="formulario">
+        <section>
             <form action="/movies/update/<%= Movie.id %>?_method=PUT" method="POST">
                 <div>
                     <label for="title">Título</label>
-                    <span><input type="text" name="title" id="" value="<%= Movie.title %>" required></span>
+                    <span><input type="text" name="title" id="" value="<%if(locals.old){%><%=locals.old.title%><%}else{%><%= Movie.title %><%}%>" ></span>
+                    <% if (locals.errors && errors.title) { %>
+                        <span style="color: red;"><%= errors.title.msg %></span>
+                    <%}%>
                 </div>
                 <br>
                 <div>
                     <label for="rating">Calificación </label>
-                    <span><input type="number" name="rating" id="" value="<%= Movie.rating %>" required></span>
+                    <span><input type="number" name="rating" value="<%if(locals.old){%><%=locals.old.rating%><%}else{%><%= Movie.rating %><%}%>" required></span>
+                    <% if (locals.errors && errors.rating) { %>
+                        <span style="color: red;"><%= errors.rating.msg %></span>
+                    <%}%>
                 </div>
                 <br>
                 <div>
                     <label for="awards">Premios </label>
-                    <span><input type="number" name="awards" id="" value="<%= Movie.awards %>" required></span>
+                    <span><input type="number" name="awards" id="" value="<%if(locals.old){%><%=locals.old.awards%><%}else{%><%= Movie.awards %><%}%>" required></span>
                 </div>
                 <br>
                 <div>
                     <label for="release_date">Fecha de creación </label>
-                    <span><input type="date" name="release_date" id="" value="<%= Movie.release_date %> required"></span>
+                    <span><input type="date" name="release_date" id="" value="<%if(locals.old){%><%=locals.old.release_date%><%}else{%><%= Movie.release_date %><%}%>" required></span>
                 </div>
                 <br>
                 <div>
                     <label for="length">Duración </label>
-                    <span><input type="number" name="length" id="" value="<%= Movie.length %>"></span>
+                    <span><input type="number" name="length" id="" value="<%if(locals.old){%><%=locals.old.length%><%}else{%><%= Movie.length %><%}%>"></span>
                 </div>
                 <br>
                 <div>

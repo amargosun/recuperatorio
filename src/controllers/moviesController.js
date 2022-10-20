@@ -37,23 +37,32 @@ const moviesController = {
             return res.render(path.resolve(__dirname, '..', 'views',  'moviesAdd'), {allGenres,allActors})})
         .catch(error => res.send(error))
     },
-    create: function (req,res) {
-        Movies.create(
-            {
-                title: req.body.title,
-                rating: req.body.rating,
-                awards: req.body.awards,
-                release_date: req.body.release_date,
-                length: req.body.length,
-                genre_id: req.body.genre_id,
-                deleted: 0
+    create: function (req, res) {
+        const resultValidation =  validationResult(req);
+        Genres.findAll()
+        .then(allGenres => {
+            if (resultValidation.errors.length > 0) {
+                return res.render(path.resolve(__dirname, '..', 'views',  'moviesAdd'),{allGenres,errors: resultValidation.mapped()})
+            }else{
+                Movies.create(
+                    {
+                        title: req.body.title,
+                        rating: req.body.rating,
+                        awards: req.body.awards,
+                        release_date: req.body.release_date,
+                        length: req.body.length,
+                        genre_id: req.body.genre_id,
+                        deleted: 0
+                    }
+                )
+                .then(()=> {
+                    return res.redirect('/')})            
+                .catch(error => res.send(error))            
             }
-        )
-        .then(()=> {
-            return res.redirect('/')})            
-        .catch(error => res.send(error))
+        })
     },
-    edit: function(req,res) {
+    
+    edit: function(req, res) {
         let movieId = req.params.id;
         let promMovies = Movies.findByPk(movieId,{include: ['genre','actors']});
         let promGenres = Genres.findAll();
@@ -65,27 +74,42 @@ const moviesController = {
             return res.render(path.resolve(__dirname, '..', 'views',  'moviesEdit'), {Movie,allGenres,allActors})})
         .catch(error => res.send(error))
     },
-    update: function (req,res) {
+
+    update: function(req, res) {
+        const resultValidation =  validationResult(req);
         let movieId = req.params.id;
-        Movies
-        .update(
-            {
-                title: req.body.title,
-                rating: req.body.rating,
-                awards: req.body.awards,
-                release_date: req.body.release_date,
-                length: req.body.length,
-                genre_id: req.body.genre_id,
-                deleted: 0
-            },
-            {
-                where: {id: movieId}
-            })
-        .then(()=> {
-            return res.redirect('/')})            
-        .catch(error => res.send(error))
+        let promMovies = Movies.findByPk(movieId,{include: ['genre','actors']});
+        let promGenres = Genres.findAll();
+        let promActors = Actors.findAll();
+        Promise
+        .all([promMovies, promGenres, promActors])
+        .then(([Movie, allGenres, allActors]) => {
+            Movie.release_date = moment( new Date(Movie.release_date)).format('L');
+            if (resultValidation.errors.length > 0) {
+                return res.render(path.resolve(__dirname, '..', 'views',  'moviesEdit'),{Movie,allGenres,errors: resultValidation.mapped()})
+            }else{
+                Movies.update(
+                    {
+                        title: req.body.title,
+                        rating: req.body.rating,
+                        awards: req.body.awards,
+                        release_date: req.body.release_date,
+                        length: req.body.length,
+                        genre_id: req.body.genre_id,
+                        deleted: 0
+                    },
+                    {
+                        where: {id: movieId}
+                    }
+                )
+                .then(()=> {
+                    return res.redirect('/')})            
+                .catch(error => res.send(error))
+            }
+        })
     },
-    delete: function (req,res) {
+    
+    delete: function(req, res) {
         let movieId = req.params.id;
         Movies
         .findByPk(movieId)
@@ -93,7 +117,7 @@ const moviesController = {
             return res.render(path.resolve(__dirname, '..', 'views',  'moviesDelete'), {Movie})})
         .catch(error => res.send(error))
     },
-    destroy: function (req,res) {
+    destroy: function (req, res) {
         let movieId = req.params.id;
         Movies
         .update(
